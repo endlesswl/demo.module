@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.lingcaibao.weixin.maneger.repository.WeixinNewsitemDao">
+
+	<resultMap id="resultMap" type="com.lingcaibao.weixin.maneger.entity.WeixinNewsitem">
+		<result property="id" column="ID" />
+		<result property="name" column="name" />
+		<result property="url" column="url" />
+		<result property="description" column="description" />
+		<result property="imagepath" column="imagepath" />
+		<result property="title" column="title" />
+		<result property="accountId" column="account_id" />
+		<result property="note" column="note" />
+		<result property="flag" column="flag" />
+		<result property="createrId" column="creater_id" />
+		<result property="createTime" column="create_time" />
+		<result property="updaterId" column="updater_id" />
+		<result property="updateTime" column="update_time" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		ID,name,url,description,imagepath,title,account_id,note,flag,creater_id,create_time,updater_id,update_time
+	</sql>
+
+	<!-- 获取用户: 输出直接映射到对象 -->
+	<select id="get" parameterType="String" resultType="WeixinNewsitem">
+		SELECT <include refid="columns" />
+		FROM weixin_newsitem
+		WHERE id= #{id}
+	</select>
+	
+	<!-- 查询用户, 不分页 -->
+	<select id="searchByIds" parameterType="String" resultMap="resultMap"  statementType="STATEMENT">
+		SELECT <include refid="columns" />
+		FROM weixin_newsitem where 
+				id in (${id})
+		ORDER BY create_time
+		
+	</select>
+	
+	<!-- 查询用户, 不分页 -->
+	<select id="search" parameterType="map" resultMap="resultMap">
+		SELECT <include refid="columns" />
+		FROM weixin_newsitem
+		<where>
+			<if test="name != null and name != ''">
+				AND name = #{name}
+			</if>
+			<if test="url != null and url != ''">
+				AND url = #{url}
+			</if>
+			<if test="description != null and description != ''">
+				AND description = #{description}
+			</if>
+			<if test="imagepath != null and imagepath != ''">
+				AND imagepath = #{imagepath}
+			</if>
+			<if test="title != null and title != ''">
+				AND title = #{title}
+			</if>
+			<if test="accountId != null and accountId != ''">
+				AND account_id = #{accountId}
+			</if>
+			<if test="note != null and note != ''">
+				AND note = #{note}
+			</if>
+			<if test="flag != null and flag != ''">
+				AND flag = #{flag}
+			</if>
+			<if test="createrId != null and createrId != ''">
+				AND creater_id = #{createrId}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				AND create_time = #{createTime}
+			</if>
+			<if test="updaterId != null and updaterId != ''">
+				AND updater_id = #{updaterId}
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+				AND update_time = #{updateTime}
+			</if>
+		</where>
+		<if test="sortColumns != null and sortColumns != ''">
+			ORDER BY ${sortColumns}
+		</if>
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="searchPage" resultMap="resultMap">
+		SELECT
+		<include refid="columns" />
+		FROM weixin_newsitem
+		<where>
+			<if test="searchFields.name != null and searchFields.name != ''">
+				AND name like  '%${searchFields.name}%'
+			</if>
+			<if test="searchFields.url != null and searchFields.url != ''">
+				AND url = #{searchFields.url}
+			</if>
+			<if
+				test="searchFields.description != null and searchFields.description != ''">
+				AND description = #{searchFields.description}
+			</if>
+			<if test="searchFields.imagepath != null and searchFields.imagepath != ''">
+				AND imagepath = #{searchFields.imagepath}
+			</if>
+			<if test="searchFields.title != null and searchFields.title != ''">
+				AND title = #{searchFields.title}
+			</if>
+			<if test="searchFields.accountId != null and searchFields.accountId != ''">
+				AND account_id = #{searchFields.accountId}
+			</if>
+			<if test="searchFields.note != null and searchFields.note != ''">
+				AND note = #{searchFields.note}
+			</if>
+			<if test="searchFields.flag != null and searchFields.flag != ''">
+				AND flag = #{searchFields.flag}
+			</if>
+			<if test="searchFields.createrId != null and searchFields.createrId != ''">
+				AND creater_id = #{searchFields.createrId}
+			</if>
+			<if
+				test="searchFields.createTime != null and searchFields.createTime != ''">
+				AND create_time = #{searchFields.createTime}
+			</if>
+			<if test="searchFields.updaterId != null and searchFields.updaterId != ''">
+				AND updater_id = #{searchFields.updaterId}
+			</if>
+			<if
+				test="searchFields.updateTime != null and searchFields.updateTime != ''">
+				AND update_time = #{searchFields.updateTime}
+			</if>
+		</where>
+		<if test="searchFields.sortColumns != null and searchFields.sortColumns != ''">
+			ORDER BY ${searchFields.sortColumns}
+		</if>
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insert" parameterType="WeixinNewsitem">
+		INSERT INTO weixin_newsitem (
+		ID,
+		name,
+		url,
+		description,
+		imagepath,
+		title,
+		account_id,
+		note,
+		flag,
+		creater_id,
+		create_time,
+		updater_id,
+		update_time
+		) VALUES (
+		#{id},
+		#{name},
+		#{url},
+		#{description},
+		#{imagepath},
+		#{title},
+		#{accountId},
+		#{note},
+		#{flag},
+		#{createrId},
+		#{createTime},
+		#{updaterId},
+		#{updateTime}
+		)
+	</insert>
+
+	<!-- 更新 -->
+	<update id="update">
+		UPDATE weixin_newsitem
+		<set>
+			name = #{name},
+			url = #{url},
+			description = #{description},
+			imagepath = #{imagepath},
+			title = #{title},
+			account_id = #{accountId},
+			note = #{note},
+			flag = #{flag},
+			updater_id = #{updaterId},
+			update_time = #{updateTime}
+		</set>
+		WHERE
+		ID = #{id}
+	</update>
+
+	<!-- 删除用户 -->
+	<delete id="delete" parameterType="Long">
+		DELETE FROM weixin_newsitem WHERE id=#{id}
+	</delete>
+</mapper> 

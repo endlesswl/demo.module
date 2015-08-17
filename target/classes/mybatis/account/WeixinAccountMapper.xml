@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.lingcaibao.weixin.account.repository.WeixinAccountDao">
+	<resultMap id="resultMap" type="com.lingcaibao.weixin.account.entity.WeixinAccount">
+        <result property="id" column="id"/>
+        <result property="accountName" column="account_name"/>
+        <result property="accountUserName" column="account_user_name"/>
+        <result property="accountPassword" column="account_password"/>
+        <result property="accountAppid" column="account_appid"/>
+        <result property="accountAppsecret" column="account_appsecret"/>
+        <result property="accountToken" column="account_token"/>
+        <result property="accountNumber" column="account_number"/>
+        <result property="accountType" column="account_type"/>
+        <result property="accountDesc" column="account_desc"/>
+        <result property="accountVerifyUrl" column="account_verify_url"/>
+        <result property="accountOauth2Url" column="account_oauth2_url"/>
+        <result property="ownerId" column="owner_id"/>
+        <result property="status" column="status"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endItma" column="end_itma"/>
+        <result property="allowUrls" column="allow_urls"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="updateTime" column="update_time"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,account_name,account_user_name,account_password,account_appid,account_appsecret,account_token,account_number,account_type,account_desc,account_verify_url,account_oauth2_url,owner_id,status,start_time,end_itma,allow_urls,creater_id,create_time,updater_id,update_time
+	</sql>
+	
+	<!-- 获取用户: 输出直接映射到对象 -->
+	<select id="get" parameterType="String" resultType="WeixinAccount">
+		SELECT *
+		FROM weixin_account
+		WHERE id=#{id}
+	</select>
+	
+
+	<!-- 查询用户, 不分页 -->
+	<select id="search" parameterType="map" resultMap="resultMap">
+		SELECT <include refid="columns" />
+		FROM weixin_account
+		<where>
+	       <if test="accountName != null and accountName != ''">
+				AND account_name = #{accountName}
+		   </if>
+	       <if test="accountUserName != null and accountUserName != ''">
+				AND account_user_name = #{accountUserName}
+		   </if>
+	       <if test="accountPassword != null and accountPassword != ''">
+				AND account_password = #{accountPassword}
+		   </if>
+	       <if test="accountAppid != null and accountAppid != ''">
+				AND account_appid = #{accountAppid}
+		   </if>
+	       <if test="accountAppsecret != null and accountAppsecret != ''">
+				AND account_appsecret = #{accountAppsecret}
+		   </if>
+	       <if test="accountToken != null and accountToken != ''">
+				AND account_token = #{accountToken}
+		   </if>
+	       <if test="accountNumber != null and accountNumber != ''">
+				AND account_number = #{accountNumber}
+		   </if>
+	       <if test="accountType != null and accountType != ''">
+				AND account_type = #{accountType}
+		   </if>
+	       <if test="accountDesc != null and accountDesc != ''">
+				AND account_desc = #{accountDesc}
+		   </if>
+	       <if test="accountVerifyUrl != null and accountVerifyUrl != ''">
+				AND account_verify_url = #{accountVerifyUrl}
+		   </if>
+	       <if test="accountOauth2Url != null and accountOauth2Url != ''">
+				AND account_oauth2_url = #{accountOauth2Url}
+		   </if>
+	       <if test="ownerId != null and ownerId != ''">
+				AND owner_id = #{ownerId}
+		   </if>
+	       <if test="status != null and status != ''">
+				AND status = #{status}
+		   </if>
+	       <if test="startTime != null and startTime != ''">
+				AND start_time = #{startTime}
+		   </if>
+	       <if test="endItma != null and endItma != ''">
+				AND end_itma = #{endItma}
+		   </if>
+	       <if test="allowUrls != null and allowUrls != ''">
+				AND allow_urls = #{allowUrls}
+		   </if>
+	       <if test="createrId != null and createrId != ''">
+				AND creater_id = #{createrId}
+		   </if>
+	       <if test="createTime != null and createTime != ''">
+				AND create_time = #{createTime}
+		   </if>
+	       <if test="updaterId != null and updaterId != ''">
+				AND updater_id = #{updaterId}
+		   </if>
+	       <if test="updateTime != null and updateTime != ''">
+				AND update_time = #{updateTime}
+		   </if>
+		</where>
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="searchPage" resultMap="resultMap">
+		SELECT <include refid="columns" />
+		FROM weixin_account
+		<where>
+	       <if test="searchFields.accountName != null and searchFields.accountName != ''">
+				AND account_name = #{searchFields.accountName}
+			</if>
+	       <if test="searchFields.accountUserName != null and searchFields.accountUserName != ''">
+				AND account_user_name = #{searchFields.accountUserName}
+			</if>
+	       <if test="searchFields.accountPassword != null and searchFields.accountPassword != ''">
+				AND account_password = #{searchFields.accountPassword}
+			</if>
+	       <if test="searchFields.accountAppid != null and searchFields.accountAppid != ''">
+				AND account_appid = #{searchFields.accountAppid}
+			</if>
+	       <if test="searchFields.accountAppsecret != null and searchFields.accountAppsecret != ''">
+				AND account_appsecret = #{searchFields.accountAppsecret}
+			</if>
+	       <if test="searchFields.accountToken != null and searchFields.accountToken != ''">
+				AND account_token = #{searchFields.accountToken}
+			</if>
+	       <if test="searchFields.accountNumber != null and searchFields.accountNumber != ''">
+				AND account_number = #{searchFields.accountNumber}
+			</if>
+	       <if test="searchFields.accountType != null and searchFields.accountType != ''">
+				AND account_type = #{searchFields.accountType}
+			</if>
+	       <if test="searchFields.accountDesc != null and searchFields.accountDesc != ''">
+				AND account_desc = #{searchFields.accountDesc}
+			</if>
+	       <if test="searchFields.accountVerifyUrl != null and searchFields.accountVerifyUrl != ''">
+				AND account_verify_url = #{searchFields.accountVerifyUrl}
+			</if>
+	       <if test="searchFields.accountOauth2Url != null and searchFields.accountOauth2Url != ''">
+				AND account_oauth2_url = #{searchFields.accountOauth2Url}
+			</if>
+	       <if test="searchFields.ownerId != null and searchFields.ownerId != ''">
+				AND owner_id = #{searchFields.ownerId}
+			</if>
+	       <if test="searchFields.status != null and searchFields.status != ''">
+				AND status = #{searchFields.status}
+			</if>
+	       <if test="searchFields.startTime != null and searchFields.startTime != ''">
+				AND start_time = #{searchFields.startTime}
+			</if>
+	       <if test="searchFields.endItma != null and searchFields.endItma != ''">
+				AND end_itma = #{searchFields.endItma}
+			</if>
+	       <if test="searchFields.allowUrls != null and searchFields.allowUrls != ''">
+				AND allow_urls = #{searchFields.allowUrls}
+			</if>
+	       <if test="searchFields.createrId != null and searchFields.createrId != ''">
+				AND creater_id = #{searchFields.createrId}
+			</if>
+	       <if test="searchFields.createTime != null and searchFields.createTime != ''">
+				AND create_time = #{searchFields.createTime}
+			</if>
+	       <if test="searchFields.updaterId != null and searchFields.updaterId != ''">
+				AND updater_id = #{searchFields.updaterId}
+			</if>
+	       <if test="searchFields.updateTime != null and searchFields.updateTime != ''">
+				AND update_time = #{searchFields.updateTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="insert" parameterType="WeixinAccount">
+		INSERT INTO weixin_account (
+			id,
+        	account_name,
+        	account_user_name,
+        	account_password,
+        	account_appid,
+        	account_appsecret,
+        	account_token,
+        	account_number,
+        	account_type,
+        	account_desc,
+        	account_verify_url,
+        	account_oauth2_url,
+        	owner_id,
+        	status,
+        	start_time,
+        	end_itma,
+        	allow_urls,
+        	creater_id,
+        	create_time,
+        	updater_id,
+        	update_time
+		) VALUES (
+			#{id},
+        	#{accountName},
+        	#{accountUserName},
+        	#{accountPassword},
+        	#{accountAppid},
+        	#{accountAppsecret},
+        	#{accountToken},
+        	#{accountNumber},
+        	#{accountType},
+        	#{accountDesc},
+        	#{accountVerifyUrl},
+        	#{accountOauth2Url},
+        	#{ownerId},
+        	#{status},
+        	#{startTime},
+        	#{endItma},
+        	#{allowUrls},
+        	#{createrId},
+        	#{createTime},
+        	#{updaterId},
+        	#{updateTime}
+		)
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" >
+        UPDATE weixin_account
+		<set>
+			<if test="accountName != null and accountName != ''">
+				account_name = #{accountName},
+			</if>	
+			<if test="accountUserName != null and accountUserName != ''">
+				account_user_name = #{accountUserName},
+			</if>	
+			<if test="accountPassword != null and accountPassword != ''">
+				account_password = #{accountPassword},
+			</if>	
+			<if test="accountAppid != null and accountAppid != ''">
+				account_appid = #{accountAppid},
+			</if>	
+			<if test="accountAppsecret != null and accountAppsecret != ''">
+				account_appsecret = #{accountAppsecret},
+			</if>	
+			<if test="accountToken != null and accountToken != ''">
+				account_token = #{accountToken},
+			</if>	
+			<if test="accountNumber != null and accountNumber != ''">
+				account_number = #{accountNumber},
+			</if>	
+			<if test="accountType != null and accountType != ''">
+				account_type = #{accountType},
+			</if>	
+			<if test="accountDesc != null and accountDesc != ''">
+				account_desc = #{accountDesc},
+			</if>	
+			<if test="accountVerifyUrl != null and accountVerifyUrl != ''">
+				account_verify_url = #{accountVerifyUrl},
+			</if>	
+			<if test="accountOauth2Url != null and accountOauth2Url != ''">
+				account_oauth2_url = #{accountOauth2Url},
+			</if>	
+			<if test="ownerId != null and ownerId != ''">
+				owner_id = #{ownerId},
+			</if>	
+			<if test="status != null and status != ''">
+				status = #{status},
+			</if>	
+			<if test="startTime != null and startTime != ''">
+				start_time = #{startTime},
+			</if>	
+			<if test="endItma != null and endItma != ''">
+				end_itma = #{endItma},
+			</if>	
+			<if test="allowUrls != null and allowUrls != ''">
+				allow_urls = #{allowUrls},
+			</if>	
+			<if test="createrId != null and createrId != ''">
+				creater_id = #{createrId},
+			</if>	
+			<if test="createTime != null and createTime != ''">
+				create_time = #{createTime},
+			</if>	
+			<if test="updaterId != null and updaterId != ''">
+				updater_id = #{updaterId},
+			</if>	
+			<if test="updateTime != null and updateTime != ''">
+				update_time = #{updateTime}
+			</if>	
+		</set>
+        WHERE 
+	        id = #{id}
+	</update>
+	
+	<!-- 删除用户 -->
+	<delete id="delete" parameterType="String">
+	     DELETE FROM weixin_account WHERE id=#{id}
+	</delete>
+</mapper> 

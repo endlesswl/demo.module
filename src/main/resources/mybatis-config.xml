@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD SQL Map Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="defaultExecutorType" value="REUSE"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+  <!--   
+    <typeAliases>
+    	<typeAlias type="com.lingcaibao.weixin.account.entity.WeixinAccount" alias="WeixinAccount"/>
+    	<typeAlias type="com.lingcaibao.weixin.maneger.entity.WeixinAutoresponse" alias="WeixinAutoresponse"/>
+    	<typeAlias type="com.lingcaibao.weixin.maneger.entity.WeixinMenu" alias="WeixinMenu"/>
+    	<typeAlias type="com.lingcaibao.weixin.maneger.entity.WeixinNewsitem" alias="WeixinNewsitem"/>
+    	<typeAlias type="com.lingcaibao.weixin.weixinuser.entity.WeixinUserinfo" alias="WeixinUserinfo"/>
+    </typeAliases> -->
+    
+<!--     <plugins> -->
+<!--         <plugin -->
+<!--                 interceptor="com.qunar.base.meerkat.orm.mybatis.support.ResultSetHandlerInterceptor"/> -->
+<!--         <plugin -->
+<!--                 interceptor="com.qunar.base.meerkat.orm.mybatis.support.StatementHandlerInterceptor"/> -->
+<!--     </plugins> -->
+
+</configuration>

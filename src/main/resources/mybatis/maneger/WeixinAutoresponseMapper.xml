@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.lingcaibao.weixin.maneger.repository.WeixinAutoresponseDao">
+
+	<resultMap id="resultMap" type="com.lingcaibao.weixin.maneger.entity.WeixinAutoresponse">
+        <result property="id" column="ID"/>
+        <result property="keyword" column="keyword"/>
+        <result property="msgtype" column="msgtype"/>
+        <result property="rescontent" column="rescontent"/>
+        <result property="messageId" column="message_id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="note" column="note"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="flag" column="flag"/>
+	</resultMap>
+	
+		
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		ID,keyword,msgtype,rescontent,message_id,account_id,note,flag,creater_id,create_time,updater_id,update_time
+	</sql>
+	
+	<!-- 获取用户: 输出直接映射到对象 -->
+	<select id="get" parameterType="String" resultType="WeixinAutoresponse">
+		SELECT <include refid="columns" />
+		FROM weixin_autoresponse
+		WHERE id=#{id}
+	</select>
+	
+
+	<!-- 查询用户, 不分页 -->
+	<select id="search" parameterType="map" resultMap="resultMap">
+		SELECT <include refid="columns" />
+		FROM weixin_autoresponse
+		<where>
+	       <if test="keyword != null and keyword != ''">
+				AND keyword = #{keyword}
+		   </if>
+	       <if test="msgtype != null and msgtype != ''">
+				AND msgtype = #{msgtype}
+		   </if>
+	       <if test="rescontent != null and rescontent != ''">
+				AND rescontent = #{rescontent}
+		   </if>
+	       <if test="messageId != null and messageId != ''">
+				AND message_id = #{messageId}
+		   </if>
+	       <if test="accountId != null and accountId != ''">
+				AND account_id = #{accountId}
+		   </if>
+	       <if test="note != null and note != ''">
+				AND note = #{note}
+		   </if>
+	       <if test="createrId != null and createrId != ''">
+				AND creater_id = #{createrId}
+		   </if>
+		   <if test="flag != null and flag != ''">
+				AND flag = #{flag}
+		   </if>
+	       <if test="createTime != null and createTime != ''">
+				AND create_time = #{createTime}
+		   </if>
+	       <if test="updaterId != null and updaterId != ''">
+				AND updater_id = #{updaterId}
+		   </if>
+	       <if test="updateTime != null and updateTime != ''">
+				AND update_time = #{updateTime}
+		   </if>
+		</where>
+		<if test="sortColumns != null and sortColumns != ''">
+            	ORDER BY ${sortColumns}
+        </if>
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="searchPage" resultMap="resultMap">
+		SELECT <include refid="columns" />
+		FROM weixin_autoresponse
+		<where>
+	       <if test="searchFields.keyword != null and searchFields.keyword != ''">
+				AND keyword like '%${searchFields.keyword}%'
+			</if>
+	       <if test="searchFields.msgtype != null and searchFields.msgtype != ''">
+				AND msgtype = #{searchFields.msgtype}
+			</if>
+	       <if test="searchFields.rescontent != null and searchFields.rescontent != ''">
+				AND rescontent = #{searchFields.rescontent}
+			</if>
+	       <if test="searchFields.messageId != null and searchFields.messageId != ''">
+				AND message_id = #{searchFields.messageId}
+			</if>
+	       <if test="searchFields.accountId != null and searchFields.accountId != ''">
+				AND account_id = #{searchFields.accountId}
+			</if>
+			<if test="searchFields.flag != null and searchFields.flag != ''">
+				AND flag = #{searchFields.flag}
+		   </if>
+	       <if test="searchFields.note != null and searchFields.note != ''">
+				AND note = #{searchFields.note}
+			</if>
+	       <if test="searchFields.createrId != null and searchFields.createrId != ''">
+				AND creater_id = #{searchFields.createrId}
+			</if>
+	       <if test="searchFields.createTime != null and searchFields.createTime != ''">
+				AND create_time = #{searchFields.createTime}
+			</if>
+	       <if test="searchFields.updaterId != null and searchFields.updaterId != ''">
+				AND updater_id = #{searchFields.updaterId}
+			</if>
+	       <if test="searchFields.updateTime != null and searchFields.updateTime != ''">
+				AND update_time = #{searchFields.updateTime}
+			</if>
+		</where>
+		<if test="searchFields.sortColumns != null and searchFields.sortColumns != ''">
+            	ORDER BY ${searchFields.sortColumns}
+        </if>
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="insert" parameterType="WeixinAutoresponse">
+		INSERT INTO weixin_autoresponse (
+			id,
+        	keyword,
+        	msgtype,
+        	rescontent,
+        	message_id,
+        	account_id,
+        	note,
+        	flag,
+        	creater_id,
+        	create_time,
+        	updater_id,
+        	update_time
+		) VALUES (
+			#{id},
+        	#{keyword},
+        	#{msgtype},
+        	#{rescontent},
+        	#{messageId},
+        	#{accountId},
+        	#{note},
+        	#{flag},
+        	#{createrId},
+        	#{createTime},
+        	#{updaterId},
+        	#{updateTime}
+		)
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" >
+        UPDATE weixin_autoresponse
+		<set>
+			keyword = #{keyword},
+			msgtype = #{msgtype},
+			rescontent = #{rescontent},
+			message_id = #{messageId},
+			account_id = #{accountId},
+			note = #{note},
+			flag = #{flag},
+			updater_id = #{updaterId},
+			update_time = #{updateTime}
+		</set>
+        WHERE 
+	        ID = #{id}
+	</update>
+	
+	<!-- 删除用户 -->
+	<delete id="delete" parameterType="Long">
+	     DELETE FROM weixin_autoresponse WHERE id=#{id}
+	</delete>
+</mapper> 

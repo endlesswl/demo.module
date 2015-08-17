@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.lingcaibao.weixin.user.repository.UserInfoDao">
+
+	<resultMap id="resultMap" type="com.lingcaibao.weixin.user.entity.UserInfo">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="headImgUrl" column="head_img_url"/>
+        <result property="realName" column="real_name"/>
+        <result property="gender" column="gender"/>
+        <result property="cardType" column="card_type"/>
+        <result property="cardNo" column="card_no"/>
+        <result property="email" column="email"/>
+        <result property="mobile" column="mobile"/>
+        <result property="language" column="language"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="country" column="country"/>
+        <result property="operator" column="operator"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,user_id,nick_name,head_img_url,real_name,gender,card_type,card_no,email,mobile,language,city,province,country,operator,create_time,modify_time
+	</sql>
+	
+	<!-- 获取用户: 输出直接映射到对象 -->
+	<select id="get" parameterType="Long" resultType="UserInfo">
+		SELECT <include refid="columns" />
+		FROM tab_user_info
+		WHERE id=#{id}
+	</select>
+	
+
+	<!-- 查询用户, 不分页 -->
+	<select id="search" parameterType="map" resultMap="resultMap">
+		SELECT <include refid="columns" />
+		FROM tab_user_info
+		<where>
+	       <if test="userId != null and userId != ''">
+				AND user_id = #{userId}
+		   </if>
+	       <if test="nickName != null and nickName != ''">
+				AND nick_name = #{nickName}
+		   </if>
+	       <if test="headImgUrl != null and headImgUrl != ''">
+				AND head_img_url = #{headImgUrl}
+		   </if>
+	       <if test="realName != null and realName != ''">
+				AND real_name = #{realName}
+		   </if>
+	       <if test="gender != null and gender != ''">
+				AND gender = #{gender}
+		   </if>
+	       <if test="cardType != null and cardType != ''">
+				AND card_type = #{cardType}
+		   </if>
+	       <if test="cardNo != null and cardNo != ''">
+				AND card_no = #{cardNo}
+		   </if>
+	       <if test="email != null and email != ''">
+				AND email = #{email}
+		   </if>
+	       <if test="mobile != null and mobile != ''">
+				AND mobile = #{mobile}
+		   </if>
+	       <if test="language != null and language != ''">
+				AND language = #{language}
+		   </if>
+	       <if test="city != null and city != ''">
+				AND city = #{city}
+		   </if>
+	       <if test="province != null and province != ''">
+				AND province = #{province}
+		   </if>
+	       <if test="country != null and country != ''">
+				AND country = #{country}
+		   </if>
+	       <if test="operator != null and operator != ''">
+				AND operator = #{operator}
+		   </if>
+	       <if test="createTime != null and createTime != ''">
+				AND create_time = #{createTime}
+		   </if>
+	       <if test="modifyTime != null and modifyTime != ''">
+				AND modify_time = #{modifyTime}
+		   </if>
+		</where>
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="searchPage" resultMap="resultMap">
+		SELECT <include refid="columns" />
+		FROM tab_user_info
+		<where>
+	       <if test="searchFields.userId != null and searchFields.userId != ''">
+				AND user_id = #{searchFields.userId}
+			</if>
+	       <if test="searchFields.nickName != null and searchFields.nickName != ''">
+				AND nick_name = #{searchFields.nickName}
+			</if>
+	       <if test="searchFields.headImgUrl != null and searchFields.headImgUrl != ''">
+				AND head_img_url = #{searchFields.headImgUrl}
+			</if>
+	       <if test="searchFields.realName != null and searchFields.realName != ''">
+				AND real_name = #{searchFields.realName}
+			</if>
+	       <if test="searchFields.gender != null and searchFields.gender != ''">
+				AND gender = #{searchFields.gender}
+			</if>
+	       <if test="searchFields.cardType != null and searchFields.cardType != ''">
+				AND card_type = #{searchFields.cardType}
+			</if>
+	       <if test="searchFields.cardNo != null and searchFields.cardNo != ''">
+				AND card_no = #{searchFields.cardNo}
+			</if>
+	       <if test="searchFields.email != null and searchFields.email != ''">
+				AND email = #{searchFields.email}
+			</if>
+	       <if test="searchFields.mobile != null and searchFields.mobile != ''">
+				AND mobile = #{searchFields.mobile}
+			</if>
+	       <if test="searchFields.language != null and searchFields.language != ''">
+				AND language = #{searchFields.language}
+			</if>
+	       <if test="searchFields.city != null and searchFields.city != ''">
+				AND city = #{searchFields.city}
+			</if>
+	       <if test="searchFields.province != null and searchFields.province != ''">
+				AND province = #{searchFields.province}
+			</if>
+	       <if test="searchFields.country != null and searchFields.country != ''">
+				AND country = #{searchFields.country}
+			</if>
+	       <if test="searchFields.operator != null and searchFields.operator != ''">
+				AND operator = #{searchFields.operator}
+			</if>
+	       <if test="searchFields.createTime != null and searchFields.createTime != ''">
+				AND create_time = #{searchFields.createTime}
+			</if>
+	       <if test="searchFields.modifyTime != null and searchFields.modifyTime != ''">
+				AND modify_time = #{searchFields.modifyTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="insert" parameterType="UserInfo" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO tab_user_info (
+        	user_id,
+        	nick_name,
+        	head_img_url,
+        	real_name,
+        	gender,
+        	card_type,
+        	card_no,
+        	email,
+        	mobile,
+        	language,
+        	city,
+        	province,
+        	country,
+        	operator,
+        	create_time,
+        	modify_time
+		) VALUES (
+        	#{userId},
+        	#{nickName},
+        	#{headImgUrl},
+        	#{realName},
+        	#{gender},
+        	#{cardType},
+        	#{cardNo},
+        	#{email},
+        	#{mobile},
+        	#{language},
+        	#{city},
+        	#{province},
+        	#{country},
+        	#{operator},
+        	#{createTime},
+        	#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" >
+        UPDATE tab_user_info
+		<set>
+			user_id = #{userId},
+			nick_name = #{nickName},
+			head_img_url = #{headImgUrl},
+			real_name = #{realName},
+			gender = #{gender},
+			card_type = #{cardType},
+			card_no = #{cardNo},
+			email = #{email},
+			mobile = #{mobile},
+			language = #{language},
+			city = #{city},
+			province = #{province},
+			country = #{country},
+			operator = #{operator},
+			create_time = #{createTime},
+			modify_time = #{modifyTime}
+		</set>
+        WHERE 
+	        id = #{id}
+	</update>
+	
+	<!-- 删除用户 -->
+	<delete id="delete" parameterType="Long">
+	     DELETE FROM tab_user_info WHERE id=#{id}
+	</delete>
+</mapper> 

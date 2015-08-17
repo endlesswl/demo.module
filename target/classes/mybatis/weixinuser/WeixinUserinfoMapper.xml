@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.lingcaibao.weixin.weixinuser.repository.WeixinUserinfoDao">
+
+	<resultMap id="resultMap" type="com.lingcaibao.weixin.weixinuser.entity.WeixinUserinfo">
+        <result property="id" column="id"/>
+        <result property="subscribe" column="subscribe"/>
+        <result property="openid" column="openid"/>
+        <result property="nickname" column="nickname"/>
+        <result property="sex" column="sex"/>
+        <result property="language" column="language"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="country" column="country"/>
+        <result property="headImgUrl" column="head_img_url"/>
+        <result property="subscribeTime" column="subscribe_time"/>
+        <result property="accountId" column="account_id"/>
+        <result property="createTime" column="create_time"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,subscribe,openid,nickname,sex,language,city,province,country,head_img_url,subscribe_time,account_id,create_time
+	</sql>
+	
+	<!-- 获取用户: 输出直接映射到对象 -->
+	<select id="get" parameterType="Long" resultType="WeixinUserinfo">
+		SELECT <include refid="columns" />
+		FROM weixin_userinfo
+		WHERE id=#{id}
+	</select>
+	
+
+	<!-- 查询用户, 不分页 -->
+	<select id="search" parameterType="map" resultMap="resultMap">
+		SELECT <include refid="columns" />
+		FROM weixin_userinfo
+		<where>
+	       <if test="subscribe != null and subscribe != ''">
+				AND subscribe = #{subscribe}
+		   </if>
+	       <if test="openid != null and openid != ''">
+				AND openid = #{openid}
+		   </if>
+	       <if test="nickname != null and nickname != ''">
+				AND nickname = #{nickname}
+		   </if>
+	       <if test="sex != null and sex != ''">
+				AND sex = #{sex}
+		   </if>
+	       <if test="language != null and language != ''">
+				AND language = #{language}
+		   </if>
+	       <if test="city != null and city != ''">
+				AND city = #{city}
+		   </if>
+	       <if test="province != null and province != ''">
+				AND province = #{province}
+		   </if>
+	       <if test="country != null and country != ''">
+				AND country = #{country}
+		   </if>
+	       <if test="headImgUrl != null and headImgUrl != ''">
+				AND head_img_url = #{headImgUrl}
+		   </if>
+	       <if test="subscribeTime != null and subscribeTime != ''">
+				AND subscribe_time = #{subscribeTime}
+		   </if>
+	       <if test="accountId != null and accountId != ''">
+				AND account_id = #{accountId}
+		   </if>
+	       <if test="createTime != null and createTime != ''">
+				AND create_time = #{createTime}
+		   </if>
+		</where>
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="searchPage" resultMap="resultMap">
+		SELECT <include refid="columns" />
+		FROM weixin_userinfo
+		<where>
+	       <if test="searchFields.subscribe != null and searchFields.subscribe != ''">
+				AND subscribe = #{searchFields.subscribe}
+			</if>
+	       <if test="searchFields.openid != null and searchFields.openid != ''">
+				AND openid = #{searchFields.openid}
+			</if>
+	       <if test="searchFields.nickname != null and searchFields.nickname != ''">
+				AND nickname = #{searchFields.nickname}
+			</if>
+	       <if test="searchFields.sex != null and searchFields.sex != ''">
+				AND sex = #{searchFields.sex}
+			</if>
+	       <if test="searchFields.language != null and searchFields.language != ''">
+				AND language = #{searchFields.language}
+			</if>
+	       <if test="searchFields.city != null and searchFields.city != ''">
+				AND city = #{searchFields.city}
+			</if>
+	       <if test="searchFields.province != null and searchFields.province != ''">
+				AND province = #{searchFields.province}
+			</if>
+	       <if test="searchFields.country != null and searchFields.country != ''">
+				AND country = #{searchFields.country}
+			</if>
+	       <if test="searchFields.headImgUrl != null and searchFields.headImgUrl != ''">
+				AND head_img_url = #{searchFields.headImgUrl}
+			</if>
+	       <if test="searchFields.subscribeTime != null and searchFields.subscribeTime != ''">
+				AND subscribe_time = #{searchFields.subscribeTime}
+			</if>
+	       <if test="searchFields.accountId != null and searchFields.accountId != ''">
+				AND account_id = #{searchFields.accountId}
+			</if>
+	       <if test="searchFields.createTime != null and searchFields.createTime != ''">
+				AND create_time = #{searchFields.createTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="insert" parameterType="WeixinUserinfo">
+		INSERT INTO weixin_userinfo (
+			id,
+        	subscribe,
+        	openid,
+        	nickname,
+        	sex,
+        	language,
+        	city,
+        	province,
+        	country,
+        	head_img_url,
+        	subscribe_time,
+        	account_id,
+        	create_time
+		) VALUES (
+			#{id},
+        	#{subscribe},
+        	#{openid},
+        	#{nickname},
+        	#{sex},
+        	#{language},
+        	#{city},
+        	#{province},
+        	#{country},
+        	#{headImgUrl},
+        	#{subscribeTime},
+        	#{accountId},
+        	#{createTime}
+		)
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" >
+        UPDATE weixin_userinfo
+		<set>
+			subscribe = #{subscribe},
+			openid = #{openid},
+			nickname = #{nickname},
+			sex = #{sex},
+			language = #{language},
+			city = #{city},
+			province = #{province},
+			country = #{country},
+			head_img_url = #{headImgUrl},
+			subscribe_time = #{subscribeTime},
+			account_id = #{accountId},
+		</set>
+        WHERE 
+	        id = #{id}
+	</update>
+	
+	<!-- 删除用户 -->
+	<delete id="delete" parameterType="Long">
+	     DELETE FROM weixin_userinfo WHERE id=#{id}
+	</delete>
+</mapper> 

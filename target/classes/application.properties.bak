@@ -1,0 +1,45 @@
+#mysql database setting
+jdbc.driver=net.sf.log4jdbc.DriverSpy
+jdbc.url=jdbc:log4jdbc:mysql://127.0.0.1:3306/lingcai_20140428?useUnicode=true&characterEncoding=utf-8
+#jdbc.url=jdbc:log4jdbc:mysql://192.168.1.150:3306/lingcai_20140428?useUnicode=true&characterEncoding=utf-8
+jdbc.username=root
+jdbc.password=123456
+#connection pool settings
+jdbc.pool.maxIdle=5
+jdbc.pool.maxActive=20
+
+
+memcached.url=192.168.1.33:11211
+
+#redis pool setting 
+redis.pool.maxActive=1024
+redis.pool.maxIdle=200
+redis.pool.maxWait=15000
+redis.pool.testOnBorrow=true
+redis.pool.testOnReturn=true
+
+#redis config
+redis.ip=192.168.1.33
+redis.port=6379
+redis.timeout=15000
+
+
+#file upload setting
+#windows
+fileUpload.imgProjectBasePath=C:/uploadTest
+#linux
+#fileUpload.imgProjectBasePath=/home/fileUpload
+
+#ftp setting
+#windows
+ftp.host=192.168.1.33
+ftp.username=root
+ftp.password=lottery123
+#linux
+#ftp.host=127.0.0.1
+#ftp.username=root
+#ftp.password=7uji9olp-
+ftp.port=22
+ftp.containerRoot=/home/ftpserver
+ftp.imgServerBasePath=/home/ftpserver/image
+ftp.domain=http://image.lingcaibao.com

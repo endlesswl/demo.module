@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.lingcaibao.weixin.maneger.repository.WeixinMenuDao">
+	<resultMap id="resultMap1" type="com.lingcaibao.weixin.maneger.entity.WeixinMenu">
+	   	<result property="id" column="ID"/>
+        <result property="name" column="name"/>
+        <result property="orders" column="orders"/>
+        <result property="type" column="type"/>
+        <result property="url" column="url"/>
+        <result property="key" column="key_"/>
+        <result property="prentsId" column="prents_id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>    	
+
+	<resultMap id="resultMap" type="com.lingcaibao.weixin.maneger.entity.WeixinMenu">
+        <result property="id" column="ID"/>
+        <result property="name" column="name"/>
+        <result property="orders" column="orders"/>
+        <result property="type" column="type"/>
+        <result property="url" column="url"/>
+        <result property="key" column="key_"/>
+        <result property="prentsId" column="prents_id"/>
+        <result property="accountId" column="account_id"/>
+        <result property="createrId" column="creater_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updaterId" column="updater_id"/>
+        <result property="updateTime" column="update_time"/>
+        <collection property="subWeimenus" column="id" javaType="ArrayList" ofType="WeixinMenu" select="getSubmenus"/>  
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		ID,name,orders,type,url,key_,prents_id,account_id,creater_id,create_time,updater_id,update_time
+	</sql>
+	
+	<!-- 获取用户: 输出直接映射到对象 -->
+	<select id="get" parameterType="Long" resultType="WeixinMenu">
+		SELECT <include refid="columns" />
+		FROM weixin_menu
+		WHERE id=#{id}
+	</select>
+	
+	
+	<select id="getSubmenus" parameterType="String" resultMap="resultMap1">
+		SELECT <include refid="columns" /> FROM weixin_menu where 1=1 and prents_id = #{prentsId} order by orders asc
+	</select>
+
+	<!-- 查询用户, 不分页 -->
+	<select id="search" parameterType="map" resultMap="resultMap">
+		SELECT <include refid="columns" /> FROM weixin_menu
+		<where>
+	       <if test="name != null and name != ''">
+				AND name = #{name}
+		   </if>
+	       <if test="orders != null and orders != ''">
+				AND orders = #{orders}
+		   </if>
+	       <if test="type != null and type != ''">
+				AND type = #{type}
+		   </if>
+	       <if test="url != null and url != ''">
+				AND url = #{url}
+		   </if>
+	       <if test="key != null and key != ''">
+				AND key_ = #{key}
+		   </if>
+	       <if test="prentsId != null and prentsId != ''">
+				AND prents_id = #{prentsId}
+		   </if>
+	       <if test="accountId != null and accountId != ''">
+				AND account_id = #{accountId}
+		   </if>
+	       <if test="createrId != null and createrId != ''">
+				AND creater_id = #{createrId}
+		   </if>
+	       <if test="createTime != null and createTime != ''">
+				AND create_time = #{createTime}
+		   </if>
+	       <if test="updaterId != null and updaterId != ''">
+				AND updater_id = #{updaterId}
+		   </if>
+	       <if test="updateTime != null and updateTime != ''">
+				AND update_time = #{updateTime}
+		   </if>
+		</where>
+			order by orders asc
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="searchPage" resultMap="resultMap">
+		SELECT <include refid="columns" />
+		FROM weixin_menu
+		<where>
+	       <if test="searchFields.name != null and searchFields.name != ''">
+				AND name = #{searchFields.name}
+			</if>
+	       <if test="searchFields.orders != null and searchFields.orders != ''">
+				AND orders = #{searchFields.orders}
+			</if>
+	       <if test="searchFields.type != null and searchFields.type != ''">
+				AND type = #{searchFields.type}
+			</if>
+	       <if test="searchFields.url != null and searchFields.url != ''">
+				AND url = #{searchFields.url}
+			</if>
+	       <if test="searchFields.key != null and searchFields.key != ''">
+				AND key_ = #{searchFields.key}
+			</if>
+	       <if test="searchFields.prentsId != null and searchFields.prentsId != ''">
+				AND prents_id = #{searchFields.prentsId}
+			</if>
+	       <if test="searchFields.accountId != null and searchFields.accountId != ''">
+				AND account_id = #{searchFields.accountId}
+			</if>
+	       <if test="searchFields.createrId != null and searchFields.createrId != ''">
+				AND creater_id = #{searchFields.createrId}
+			</if>
+	       <if test="searchFields.createTime != null and searchFields.createTime != ''">
+				AND create_time = #{searchFields.createTime}
+			</if>
+	       <if test="searchFields.updaterId != null and searchFields.updaterId != ''">
+				AND updater_id = #{searchFields.updaterId}
+			</if>
+	       <if test="searchFields.updateTime != null and searchFields.updateTime != ''">
+				AND update_time = #{searchFields.updateTime}
+			</if>
+		</where>
+		order by orders asc
+	</select>
+	
+	<!-- 新增 -->
+	<insert id="insert" parameterType="WeixinMenu">
+		INSERT INTO weixin_menu (
+			id,
+        	name,
+        	orders,
+        	type,
+        	url,
+        	key_,
+        	prents_id,
+        	account_id,
+        	creater_id,
+        	create_time,
+        	updater_id,
+        	update_time
+		) VALUES (
+			#{id},
+        	#{name},
+        	#{orders},
+        	#{type},
+        	#{url},
+        	#{key},
+        	#{prentsId},
+        	#{accountId},
+        	#{createrId},
+        	#{createTime},
+        	#{updaterId},
+        	#{updateTime}
+		)
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="update" >
+        UPDATE weixin_menu
+		<set>
+			name = #{name},
+			orders = #{orders},
+			type = #{type},
+			url = #{url},
+			key_ = #{key},
+			prents_id = #{prentsId},
+			account_id = #{accountId},
+			updater_id = #{updaterId},
+			update_time = #{updateTime}
+		</set>
+        WHERE 
+	        ID = #{id}
+	</update>
+	
+	<!-- 删除用户 -->
+	<delete id="delete" parameterType="Long">
+	     DELETE FROM weixin_menu WHERE id=#{id}
+	</delete>
+</mapper> 
